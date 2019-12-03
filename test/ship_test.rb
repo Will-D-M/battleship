@@ -8,4 +8,8 @@ class ShipTest < Minitest::Test
     @cruiser = Ship.new("Cruiser", 3)
   end
 
+  def test_it_exists
+    assert_instance_of Ship, @cruiser
+  end
+
 end
