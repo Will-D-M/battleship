@@ -38,10 +38,12 @@ class ShipTest < Minitest::Test
 
   def test_three_hits_changes_sunk_to_true
     @cruiser.hit
+    refute @cruiser.sunk?
+
     @cruiser.hit
     @cruiser.hit
 
     assert @cruiser.sunk?
   end
-  
+
 end
