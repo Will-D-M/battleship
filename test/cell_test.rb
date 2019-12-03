@@ -54,7 +54,6 @@ class CellTest < Minitest::Test
 
   def test_it_renders_properly_while_empty
     assert_equal ".", @cell.render
-
     @cell.fire_upon
 
     assert_equal "M", @cell.render
@@ -74,6 +73,7 @@ class CellTest < Minitest::Test
   end
 
   def test_it_renders_properly_when_ship_is_sunk
+    # require 'pry'; binding.pry
     @cell.place_ship(@cruiser)
     @cell.fire_upon
 
