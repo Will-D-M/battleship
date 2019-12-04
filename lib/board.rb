@@ -2,7 +2,7 @@ require_relative 'cell'
 
 class Board
 
-  attr_accessor :cells, :board_cells
+  attr_accessor :cells
 
   def initialize
     @cells = {}
@@ -29,6 +29,30 @@ class Board
 
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
+  end
+
+  def letters_same?(ship, coordinates)
+    coordinates.all? do |c|
+      c[0] == coordinates[0][0]
+    end
+  end
+
+  def numbers_same?(ship, coordinates)
+  end
+
+  def letters_consecutive?(ship, coordinates)
+  end
+
+  def numbers_consecutive?(ship, coordinates)
+  end
+
+  # def cells_empty?(ship, coordinates)
+  # end
+
+  def valid_placement(ship, coordinates)
+    return true if valid_coordinate? && letters_same? && numbers_consecutive?
+    return true if valid_coordinate? && numbers_same? && letters_consecutive?
+    return false
   end
 
 end
