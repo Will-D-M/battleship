@@ -41,7 +41,7 @@ class BoardTest < Minitest::Test
       assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
       assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
     end
-    
+
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.letters_same?(@submarine, ["A1", "B1"])
