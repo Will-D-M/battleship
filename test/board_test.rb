@@ -36,31 +36,33 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
+  def test_it_verifies_ship_length_equal_number_of_coordinates
+      assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
+      assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
+      assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
+    end
+    
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.letters_same?(@submarine, ["A1", "B1"])
   end
 
   def test_numbers_are_the_same
-    skip
     assert_equal true, @board.numbers_same?(@submarine, ["A1", "B1"])
     assert_equal false, @board.numbers_same?(@cruiser, ["A1", "A2", "A3"])
   end
 
   def test_letters_are_consecutive
-    skip
     assert_equal true, @board.letters_consecutive?(@cruiser, ["A1", "B1", "C1"])
     assert_equal false, @board.letters_consecutive?(@submarine, ["D3", "D4"])
   end
 
   def test_numbers_are_consecutive
-    skip
     assert_equal true, @board.numbers_consecutive?(@submarine, ["A1", "A2"])
     assert_equal false, @board.numbers_consecutive?(@cruiser, ["A1", "A3", "A4"])
   end
 
   def test_it_has_valid_ratio_coordinates_to_ship
-
     skip
     assert_equal 2, @cruiser.ship.length
     assert_equal 3, @submarine.ship.length

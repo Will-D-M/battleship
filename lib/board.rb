@@ -31,6 +31,10 @@ class Board
     @cells.keys.include?(coordinate)
   end
 
+  def correct_length?(ship, coordinates)
+    ship.length == coordinates.length
+  end
+
   def letters_same?(ship, coordinates)
     coordinates.all? do |c|
       c[0] == coordinates[0][0]
@@ -38,21 +42,32 @@ class Board
   end
 
   def numbers_same?(ship, coordinates)
+    coordinates.all? do |c|
+      c[1] == coordinates[1][1]
+    end
   end
 
   def letters_consecutive?(ship, coordinates)
+    x = coordinates.map do |c|
+      c[0]
+    end
+    letter_range = x[0]..x[-1]
+    tester = letter_range.to_a
+    x == tester
   end
 
   def numbers_consecutive?(ship, coordinates)
+    x = coordinates.map do |c|
+      c[1]
+    end
+    letter_range = x[0]..x[-1]
+    tester = letter_range.to_a
+    x == tester
   end
-
-  # def cells_empty?(ship, coordinates)
-  # end
 
   def valid_placement(ship, coordinates)
-    return true if valid_coordinate? && letters_same? && numbers_consecutive?
-    return true if valid_coordinate? && numbers_same? && letters_consecutive?
+    return true if correct_length? && valid_coordinate? && letters_same? && numbers_consecutive?
+    return true if correct_length? && valid_coordinate? && numbers_same? && letters_consecutive?
     return false
   end
-
 end
