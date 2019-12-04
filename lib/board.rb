@@ -1,24 +1,30 @@
+require_relative 'cell'
+
 class Board
-  attr_reader :cells
+
+  attr_accessor :cells, :board_cells
 
   def initialize
     @cells = {}
-    @board_cells = {}
   end
 
-  def cells
+  def add_cells
     board_coords = []
+
     yrange = "A".."D"
     xrange = "1".."4"
-    binding.pry; require 'pry'
     ycoords = yrange.to_a
     xcoords = xrange.to_a
-    coords_merge = ycoords.zip(xcoords)
 
-    coords_merge.each {|m| board_coords << m.join } # creates accurate array of coords
-    board_coords.each {|c| @board_cells[c] = Cell.new(c) }
+    ycoords.each do |y|
+      xcoords.each do |x|
+        board_coords << y + x
+      end
+    end
 
-    p @board_cells
+    board_coords.each do |c|
+      @cells[c] = Cell.new(c)
+    end
   end
 
 end
