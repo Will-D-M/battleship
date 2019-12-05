@@ -34,10 +34,11 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_verifies_ship_length_equal_number_of_coordinates
-      assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
-      assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
-      assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
-    end
+    assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
+    assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
+    assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
+    assert_equal false, @board.correct_length?(@submarine, ["B2", "B3", "B4"])
+  end
 
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
@@ -52,6 +53,7 @@ class BoardTest < Minitest::Test
   def test_letters_are_consecutive
     assert_equal true, @board.letters_consecutive?(@cruiser, ["A1", "B1", "C1"])
     assert_equal false, @board.letters_consecutive?(@submarine, ["D3", "D4"])
+    assert_equal false, @board.letters_consecutive?(@submarine, ["A1", "C1"])
   end
 
   def test_numbers_are_consecutive
@@ -59,27 +61,33 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.numbers_consecutive?(@cruiser, ["A1", "A3", "A4"])
   end
 
-  def test_it_has_valid_ratio_coordinates_to_ship
-    skip
-    assert_equal 2, @cruiser.ship.length
-    assert_equal 3, @submarine.ship.length
-    assert_equal false, board.valid_placement?(cruiser, ["A1", "A2"])
-    assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
+  def test_valid_placement
+    @board.add_cells
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A3", "A4"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
+    assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
+
+    assert_equal false, @board.valid_placement?(@cruiser,["C3", "D3", "E3"])
+    assert_equal false, @board.valid_placement?(@submarine,["D1", "E1"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B1", "D1"])
+
+    assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
+    assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
+
+    assert_equal true, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
+    assert_equal true, @board.valid_placement?(@submarine, ["B2", "B1"])
   end
 
-  def test_it_has_consecutive_coordinates
-    skip
-    refute true, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
-    refute true, board.valid_placement?(submarine, ["A1", "C1"])
-    refute true, board.valid_placement?(cruiser, ["A3", "A2", "A1"])
-    refute true, board.valid_placement?(submarine, ["C1", "B1"])
-  end
-
-  def test_it_has_no_diagonal_coordinates
-    skip
-    assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
-    assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
-  end
+  # coordinates.all? do |c|
+  #   valid_coordinate?(c)
+  # end
 
   def test_it_has_valid_placement
     skip
