@@ -11,10 +11,8 @@ class Board
   def add_cells
     board_coords = []
 
-    yrange = "A".."D"
-    xrange = "1".."4"
-    ycoords = yrange.to_a
-    xcoords = xrange.to_a
+    ycoords = ("A".."D").to_a
+    xcoords = ("1".."4").to_a
 
     ycoords.each do |y|
       xcoords.each do |x|
