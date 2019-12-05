@@ -96,4 +96,37 @@ class Board
       false
     end
   end
+
+  def render(hidden = false)
+    render_array = []
+    hidden == true && no_plays
+      render_array << " " + ("1".."4").to_a.join(" ") + " /n"
+      render_array << "A " self.cell.render
+      render_array << "/n"
+      render_array <<
+      render_array << "B "
+      "/n"
+      render_array << "C "
+      "/n"
+      render_array << "D "
+      "/n"
+
+      if @fired_upon == false && empty?
+        render_array << "."
+      elsif @fired_upon == true && empty?
+        render_array << "M"
+      elsif @ship.sunk? == true
+        render_array << "X"
+      elsif !empty? && @fired_upon == true
+        render_array << "H"
+      elsif show_ship == true && !empty?
+        "S"
+      end
+      end
+
+
+      render_array << " " + "B "
+
+
+    render_array.join
 end
