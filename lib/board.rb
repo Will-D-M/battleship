@@ -60,7 +60,16 @@ class Board
     end
     numbers_range = coord_nums_array[0]..coord_nums_array[-1]
     numbers_array = numbers_range.to_a
-    coord_nums_array == numbers_array
+
+    if coord_nums_array == numbers_array
+      true
+    elsif coord_nums_array[0] > coord_nums_array[-1]
+      if coord_nums_array == numbers_array.reverse!
+        true
+      else
+        false
+      end
+    end
   end
 
   def valid_placement?(ship, coordinates)

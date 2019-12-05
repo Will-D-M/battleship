@@ -81,8 +81,8 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
     assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
 
-    assert_equal true, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
-    assert_equal true, @board.valid_placement?(@submarine, ["B2", "B1"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B2", "B1"])
   end
 
   # coordinates.all? do |c|
