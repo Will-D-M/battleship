@@ -1,4 +1,5 @@
 require_relative 'cell'
+require_relative 'ship'
 
 class Board
 
@@ -11,10 +12,12 @@ class Board
   def add_cells
     board_coords = []
 
-    yrange = "A".."D"
-    xrange = "1".."4"
-    ycoords = yrange.to_a
-    xcoords = xrange.to_a
+    # board_size = gets.chomp if board_size % 2 = 0
+    # yrange = ("A"..Math.sqrt(board_size)).to_a
+    # yrange = ("1"..(Math.sqrt(board_size).to_i.to_s)).to_a
+
+    ycoords = ("A".."D").to_a
+    xcoords = ("1".."4").to_a
 
     ycoords.each do |y|
       xcoords.each do |x|
@@ -66,8 +69,16 @@ class Board
   end
 
   def valid_placement(ship, coordinates)
-    return true if correct_length? && valid_coordinate? && letters_same? && numbers_consecutive?
-    return true if correct_length? && valid_coordinate? && numbers_same? && letters_consecutive?
+    return true if correct_length?(ship, coordinates) && numbers_consecutive?(ship, coordinates) && letters_consecutive?(ship, coordinates)
+    # return true if correct_length?(ship, coordinates)
     return false
   end
+
+  # Board Render Method Psuedo
+
+  # def render(default_to_false)
+      # method_repo_array = []
+    # if render(false)
+        # method_repo_array << " " + ("1".."4").to_a.join(" ") + " /n"
+        # method_repo_array << " " + ("1".."4").to_a.join(" ") + " /n"
 end
