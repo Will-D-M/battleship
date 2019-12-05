@@ -33,15 +33,12 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
-<<<<<<< HEAD
   def test_it_verifies_ship_length_equal_number_of_coordinates
       assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
       assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
       assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
     end
 
-=======
->>>>>>> 82cb97edd59447cf8a4089172e2421a0da231226
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.letters_same?(@submarine, ["A1", "B1"])
