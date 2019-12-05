@@ -64,20 +64,23 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    if !correct_length?(ship, coordinates)
-      false
-    elsif letters_same?(ship, coordinates) && numbers_same?(ship, coordinates)
-      false
-    elsif letters_consecutive?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
-      false
-    else
+
+    return false if !correct_length?(ship, coordinates)
+
+    if letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
       coordinates.all? do |c|
         valid_coordinate?(c)
       end
+
+    elsif numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
+      coordinates.all? do |c|
+        valid_coordinate?(c)
+      end
+
+    else
+      false
     end
-    # return true if correct_length?(ship, coordinates) && letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
-    # return true if correct_length?(ship, coordinates) && numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
-    # return false
+    
   end
 
 end
