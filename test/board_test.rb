@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/board'
 require './lib/ship'
-
 class BoardTest < Minitest::Test
 
   def setup
@@ -22,13 +21,11 @@ class BoardTest < Minitest::Test
 
   def test_it_adds_cells
     @board.add_cells
-
     assert_equal 16, @board.cells.size
   end
 
   def test_it_verifies_valid_coordinates
     @board.add_cells
-
     assert_equal true, @board.valid_coordinate?("A1")
     assert_equal true, @board.valid_coordinate?("D4")
     assert_equal false, @board.valid_coordinate?("A5")
@@ -36,12 +33,15 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
+<<<<<<< HEAD
   def test_it_verifies_ship_length_equal_number_of_coordinates
       assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
       assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
       assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
     end
 
+=======
+>>>>>>> 82cb97edd59447cf8a4089172e2421a0da231226
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.letters_same?(@submarine, ["A1", "B1"])
@@ -96,7 +96,6 @@ class BoardTest < Minitest::Test
     cell_1 = board.cells["A1"]
     cell_2 = board.cells["A2"]
     cell_3 = board.cells["A3"]
-
     assert_equal Cell, cell_1.class
     assert_equal Cell, cell_2.class
     assert_equal Cell, cell_3.class
@@ -109,14 +108,12 @@ class BoardTest < Minitest::Test
   def test_it_has_no_overlapping_ships
     skip
     board.place(cruiser, ["A1", "A2", "A3"])
-
     assert_equal false, board.valid_placement?(submarine, ["A1", "B1"])
   end
 
   def test_it_renders_board
     skip
     board.place(cruiser, ["A1", "A2", "A3"])
-
     assert_equal String, board.render.class
   end
 end
