@@ -46,26 +46,26 @@ class Board
   end
 
   def letters_consecutive?(ship, coordinates)
-    x = coordinates.map do |c|
+    coord_letter_array = coordinates.map do |c|
       c[0]
     end
-    letter_range = x[0]..x[-1]
-    tester = letter_range.to_a
-    x == tester
+    letter_range = coord_letter_array[0]..coord_letter_array[-1]
+    letter_array = letter_range.to_a
+    coord_letter_array == letter_array
   end
 
   def numbers_consecutive?(ship, coordinates)
-    x = coordinates.map do |c|
+    coord_nums_array = coordinates.map do |c|
       c[1]
     end
-    letter_range = x[0]..x[-1]
-    tester = letter_range.to_a
-    x == tester
+    numbers_range = coord_nums_array[0]..coord_nums_array[-1]
+    numbers_array = numbers_range.to_a
+    coord_nums_array == numbers_array
   end
 
   def valid_placement(ship, coordinates)
-    return true if correct_length? && valid_coordinate? && letters_same? && numbers_consecutive?
-    return true if correct_length? && valid_coordinate? && numbers_same? && letters_consecutive?
+    return true if correct_length?(ship, coordinates) && valid_coordinate?(ship, coordinates) && letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
+    return true if correct_length?(ship, coordinates) && valid_coordinate?(ship, coordinates) && numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
     return false
   end
 end
