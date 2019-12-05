@@ -66,18 +66,25 @@ class Board
   def valid_placement?(ship, coordinates)
     if !correct_length?(ship, coordinates)
       false
-    elsif letters_same?(ship, coordinates) && numbers_same?(ship, coordinates)
+    elsif letters_same?(ship, coordinates)
       false
-    elsif letters_consecutive?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
+    elsif numbers_same?(ship, coordinates)
       false
-    else
-      coordinates.all? do |c|
-        valid_coordinate?(c)
+    elsif letters_consecutive?(ship, coordinates)
+      false
+    elsif numbers_consecutive?(ship, coordinates)
+      false
+    elsif coordinates
+      require 'pry'; binding.pry
+      coordinates.each do |c|
+        if valid_coordinate?(c) == true
+          true
+        else
+          false
+        end
       end
+    else
+      false
     end
-    # return true if correct_length?(ship, coordinates) && letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
-    # return true if correct_length?(ship, coordinates) && numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
-    # return false
   end
-
 end
