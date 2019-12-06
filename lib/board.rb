@@ -106,17 +106,23 @@ class Board
       # First character of each line
       # Line returns
       # Spaces
-    render_array = []
 
-    board_end = Math.sqrt(@board.cells.length).to_i.to_s
-    first_line = " " + ("1"..board_end).to_a.join(" ") + " /n"
-    render_array << first_line
-    render_array << "A"
+      render_array = []
 
-    @board.cells.keys.each do |x|
-      render_array << @board.cells[x].render
-    end
+      board_end = Math.sqrt(@board.cells.length).to_i.to_s
+      first_line = " " + ("1"..board_end).to_a.join(" ") + " /n"
+      render_array << first_line
 
-    render_array.join
+      board_axis_size = Math.sqrt(@board.cells.length).to_i
+      board_last_axis_letter = ("A".ord + (board_axis_size - 1)).chr
+
+      render_array << "A"
+
+      @board.cells.keys.each do |x|
+        render_array << @board.cells[x].render
+      end
+
+      render_array.join
+      board_last_axis_letter
   end
 end
