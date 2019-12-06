@@ -98,14 +98,35 @@ class Board
   end
 
   def render(hidden = false)
-    # Everything below functions in pry
-      # @board.cells["A4"].ship = @cruiser
-      # @board.cells["C3"].fired_upon = true
-    # Need to fix variable scope = current first PRY scope to file/method/block
-    # Need to write logic to shovel all other characters
-      # First character of each line
-      # Line returns
-      # Spaces
+
+
+      # def board_dimensions_helper_method
+      #   board_total_size = @board.cells.length
+      #   board_axis_size = Math.sqrt(@board.cells.length).to_i
+      #   board_last_axis_letter = ("A".ord + (board_axis_size - 1)).chr
+      #   board_last_axis_number = board_axis_size.to_s
+      #
+      # end
+
+    # Iteration Logic
+      # if @board.cells.keys[array_index] < board_axis_size
+      #   "A" + cell.render.method
+      # if @board.cells.keys[array_index] > board_axis_size && < board_axis_size * 2
+      #   "B" + cell.render.method
+      # if @board.cells.keys[array_index] > board_axis_size && < board_axis_size * 3
+      #   "C" + cell.render.method
+      # if @board.cells.keys[array_index] > board_axis_size && < board_axis_size * ()
+      #   "D" + cell.render.method
+
+      # Everything below functions in pry
+        # @board.cells["A4"].ship = @cruiser
+        # @board.cells["C3"].fired_upon = true
+
+      # Need to fix variable scope = current first PRY scope to file/method/block
+      # Need to write logic to shovel all other characters
+        # First character of each line
+        # Line returns
+        # Spaces
 
       render_array = []
 
