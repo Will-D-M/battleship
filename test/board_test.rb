@@ -33,6 +33,13 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?("A22")
   end
 
+  def test_it_verifies_ship_length_equal_number_of_coordinates
+    assert_equal false, @board.correct_length?(@cruiser, ["A1", "A2"])
+    assert_equal true, @board.correct_length?(@cruiser, ["B1", "C1", "D1"])
+    assert_equal true, @board.correct_length?(@submarine, ["A1", "A2"])
+    assert_equal false, @board.correct_length?(@submarine, ["B2", "B3", "B4"])
+  end
+
   def test_letters_are_the_same
     assert_equal true, @board.letters_same?(@cruiser, ["A1", "A2", "A3"])
     assert_equal false, @board.letters_same?(@submarine, ["A1", "B1"])
@@ -46,6 +53,7 @@ class BoardTest < Minitest::Test
   def test_letters_are_consecutive
     assert_equal true, @board.letters_consecutive?(@cruiser, ["A1", "B1", "C1"])
     assert_equal false, @board.letters_consecutive?(@submarine, ["D3", "D4"])
+    assert_equal false, @board.letters_consecutive?(@submarine, ["A1", "C1"])
   end
 
   def test_numbers_are_consecutive
@@ -53,53 +61,53 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.numbers_consecutive?(@cruiser, ["A1", "A3", "A4"])
   end
 
-  def test_it_has_valid_ratio_coordinates_to_ship
-    skip
-    assert_equal 2, @cruiser.ship.length
-    assert_equal 3, @submarine.ship.length
-    assert_equal false, board.valid_placement?(cruiser, ["A1", "A2"])
-    assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
+  def test_is_cells_empty
+    @board.add_cells
+
+    assert_equal true, @board.cells_empty?(@submarine, ["A1", "B1"])
+
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+
+    assert_equal false, @board.cells_empty?(@submarine, ["A1", "B1"])
   end
 
-  def test_it_has_consecutive_coordinates
-    skip
-    refute true, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
-    refute true, board.valid_placement?(submarine, ["A1", "C1"])
-    refute true, board.valid_placement?(cruiser, ["A3", "A2", "A1"])
-    refute true, board.valid_placement?(submarine, ["C1", "B1"])
+  def test_valid_placement
+    @board.add_cells
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A2", "A3", "A4"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A3", "A4"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "B2", "C3"])
+    assert_equal false, @board.valid_placement?(@submarine, ["C2", "D3"])
+
+    assert_equal false, @board.valid_placement?(@cruiser,["C3", "D3", "E3"])
+    assert_equal false, @board.valid_placement?(@submarine,["D4", "D5"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["B1", "A1", "C1"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B1", "D1"])
+
+    assert_equal false, @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B2", "B1"])
+
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "A1"])
+
+    assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
+    assert_equal true, @board.valid_placement?(@submarine, ["A1", "A2"])
+    assert_equal true, @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
   end
 
-  def test_it_has_no_diagonal_coordinates
-    skip
-    assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
-    assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
-  end
+  def test_overlapping_ships_returns_false
+    @board.add_cells
 
-  def test_it_has_valid_placement
-    skip
-    assert_equal true, board.valid_placement?(submarine, ["A1", "A2"])
-    assert_equal true, board.valid_placement?(cruiser, ["B1", "C1", "D1"])
-  end
+    @board.place(@cruiser, ["A1", "A2", "A3"])
 
-  def test_it_places_ship_in_coordinates
-    skip
-    board.place(cruiser, ["A1", "A2", "A3"])
-    cell_1 = board.cells["A1"]
-    cell_2 = board.cells["A2"]
-    cell_3 = board.cells["A3"]
-    assert_equal Cell, cell_1.class
-    assert_equal Cell, cell_2.class
-    assert_equal Cell, cell_3.class
-    assert_equal cruiser, cell_1.ship
-    assert_equal cruiser, cell_2.ship
-    assert_equal cruiser, cell_3.ship
-    assert true, cell_3.ship == cell_2.ship
-  end
-
-  def test_it_has_no_overlapping_ships
-    skip
-    board.place(cruiser, ["A1", "A2", "A3"])
-    assert_equal false, board.valid_placement?(submarine, ["A1", "B1"])
+    assert_equal true, @board.valid_placement?(@submarine, ["B1", "B2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "B1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["B4", "B5"])
   end
 
   def test_it_renders_board

@@ -11,10 +11,8 @@ class Board
   def add_cells
     board_coords = []
 
-    yrange = "A".."D"
-    xrange = "1".."4"
-    ycoords = yrange.to_a
-    xcoords = xrange.to_a
+    ycoords = ("A".."D").to_a
+    xcoords = ("1".."4").to_a
 
     ycoords.each do |y|
       xcoords.each do |x|
@@ -48,26 +46,53 @@ class Board
   end
 
   def letters_consecutive?(ship, coordinates)
-    x = coordinates.map do |c|
+    coord_letter_array = coordinates.map do |c|
       c[0]
     end
-    letter_range = x[0]..x[-1]
-    tester = letter_range.to_a
-    x == tester
+    letter_range = coord_letter_array[0]..coord_letter_array[-1]
+    coord_letter_array == letter_range.to_a
   end
 
   def numbers_consecutive?(ship, coordinates)
-    x = coordinates.map do |c|
+    coord_nums_array = coordinates.map do |c|
       c[1]
     end
-    letter_range = x[0]..x[-1]
-    tester = letter_range.to_a
-    x == tester
+    numbers_range = coord_nums_array[0]..coord_nums_array[-1]
+    coord_nums_array == numbers_range.to_a
   end
 
-  def valid_placement(ship, coordinates)
-    return true if correct_length? && valid_coordinate? && letters_same? && numbers_consecutive?
-    return true if correct_length? && valid_coordinate? && numbers_same? && letters_consecutive?
-    return false
+  def cells_empty?(ship, coordinates)
+    if coordinates.all? { |c| valid_coordinate?(c) } == false
+      return false
+    end
+
+    coordinates.all? do |c|
+      @cells[c].ship == nil
+    end
   end
+
+  def valid_placement?(ship, coordinates)
+    if !correct_length?(ship, coordinates) || !cells_empty?(ship, coordinates)
+      false
+
+    elsif letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
+      true
+
+    elsif numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
+      true
+
+    else
+      false
+    end
+  end
+
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |c|
+        @cells[c].ship = ship
+      end
+      @cells
+    end
+  end
+
 end
