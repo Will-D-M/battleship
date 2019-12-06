@@ -50,8 +50,7 @@ class Board
       c[0]
     end
     letter_range = coord_letter_array[0]..coord_letter_array[-1]
-    letter_array = letter_range.to_a
-    coord_letter_array == letter_array
+    coord_letter_array == letter_range.to_a
   end
 
   def numbers_consecutive?(ship, coordinates)
@@ -59,28 +58,41 @@ class Board
       c[1]
     end
     numbers_range = coord_nums_array[0]..coord_nums_array[-1]
-    numbers_array = numbers_range.to_a
-    coord_nums_array == numbers_array
+    coord_nums_array == numbers_range.to_a
+  end
+
+  def cells_empty?(ship, coordinates)
+    if coordinates.all? { |c| valid_coordinate?(c) } == false
+      return false
+    end
+
+    coordinates.all? do |c|
+      @cells[c].ship == nil
+    end
   end
 
   def valid_placement?(ship, coordinates)
+    if !correct_length?(ship, coordinates) || !cells_empty?(ship, coordinates)
+      false
 
-    return false if !correct_length?(ship, coordinates)
-
-    if letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
-      coordinates.all? do |c|
-        valid_coordinate?(c)
-      end
+    elsif letters_same?(ship, coordinates) && numbers_consecutive?(ship, coordinates)
+      true
 
     elsif numbers_same?(ship, coordinates) && letters_consecutive?(ship, coordinates)
-      coordinates.all? do |c|
-        valid_coordinate?(c)
-      end
+      true
 
     else
       false
     end
-    
+  end
+
+  def place(ship, coordinates)
+    if valid_placement?(ship, coordinates)
+      coordinates.each do |c|
+        @cells[c].ship = ship
+      end
+      @cells
+    end
   end
 
 end
