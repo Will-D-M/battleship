@@ -98,35 +98,25 @@ class Board
   end
 
   def render(hidden = false)
+    # Everything below functions in pry
+      # @board.cells["A4"].ship = @cruiser
+      # @board.cells["C3"].fired_upon = true
+    # Need to fix variable scope = current first PRY scope to file/method/block
+    # Need to write logic to shovel all other characters
+      # First character of each line
+      # Line returns
+      # Spaces
     render_array = []
-    hidden == true && no_plays
-      render_array << " " + ("1".."4").to_a.join(" ") + " /n"
-      render_array << "A " self.cell.render
-      render_array << "/n"
-      render_array <<
-      render_array << "B "
-      "/n"
-      render_array << "C "
-      "/n"
-      render_array << "D "
-      "/n"
 
-      if @fired_upon == false && empty?
-        render_array << "."
-      elsif @fired_upon == true && empty?
-        render_array << "M"
-      elsif @ship.sunk? == true
-        render_array << "X"
-      elsif !empty? && @fired_upon == true
-        render_array << "H"
-      elsif show_ship == true && !empty?
-        "S"
-      end
-      end
+    board_end = Math.sqrt(@board.cells.length).to_i.to_s
+    first_line = " " + ("1"..board_end).to_a.join(" ") + " /n"
+    render_array << first_line
+    render_array << "A"
 
-
-      render_array << " " + "B "
-
+    @board.cells.keys.each do |x|
+      render_array << @board.cells[x].render
+    end
 
     render_array.join
+  end
 end
