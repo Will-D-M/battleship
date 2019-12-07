@@ -110,9 +110,30 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_placement?(@submarine, ["B4", "B5"])
   end
 
-  def test_it_renders_board
-    skip
-    board.place(cruiser, ["A1", "A2", "A3"])
-    assert_equal String, board.render.class
+  def test_it_can_render_when_ships_are_hidden
+    @board.add_cells
+
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+
+    @board.place(@submarine, ["D3", "D4"])
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
   end
+
+  def test_it_can_render_showing_ships
+    @board.add_cells
+
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+
+    assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+
+    @board.place(@submarine, ["D3", "D4"])
+
+    assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . S S \n", @board.render(true)
+  end
+
 end
