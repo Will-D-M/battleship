@@ -10,7 +10,7 @@ class GameTest < MiniTest::Test
     end
 
     def test_computer_can_place_ships_in_random_valid_locations
-
+      # computer play methods should live in User class
     end
 
     def test_user_can_enter_valid_sequences_to_place_both_ships

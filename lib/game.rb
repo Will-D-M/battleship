@@ -3,23 +3,23 @@ require_relative 'board'
 # require_relative 'user'
 
 
-def main_menu
-  3.times{puts "\n"}
-  puts "Welcome to BATTLESHIP \n"
-  puts "Enter p to play. Enter q to quit. \n\n"
-  print "> "
-  menu_selection = gets.chomp.to_s.downcase
-
-  until menu_selection == "p" || menu_selection == "q" do
-    puts "Please enter a valid selection"
+  def main_menu
+    3.times{puts "\n"}
+    puts "Welcome to BATTLESHIP \n"
+    puts "Enter p to play. Enter q to quit. \n\n"
     print "> "
     menu_selection = gets.chomp.to_s.downcase
-  end
 
-  if menu_selection == "q"
-    puts "\n\nGoodbye.\n\n\n"
-    return
-  elsif menu_selection == "p"
+    until menu_selection == "p" || menu_selection == "q" do
+      puts "Please enter a valid selection"
+      print "> "
+      menu_selection = gets.chomp.to_s.downcase
+    end
+
+    if menu_selection == "q"
+      puts "\n\nGoodbye.\n\n\n"
+      return
+    elsif menu_selection == "p"
       puts "\n\n...game loading...\n\n\n"
       sleep(3)
       # @board.render
@@ -37,9 +37,11 @@ def main_menu
       puts "Press Enter/Return To Continue"
       continue = gets
       print "> "
+
         if continue == "\n"
           puts "\n\nGreat!\n\n"
         end
+
       puts "Your Submarine is two units long.\n\n"
       sleep(2)
       puts "For example:\n\nA2 A3\nor\nB1 C1\n\n\n"
@@ -47,18 +49,13 @@ def main_menu
       puts "Press Enter/Return To Continue"
       continue = gets
       print "> "
-        if continue == "\n"
-          puts "\n\nGreat!\n\n"
-        end
+
+      if continue == "\n"
+        puts "\n\nGreat!\n\n"
+      end
+
       puts "Enter the squares for the Cruiser (3 spaces):"
       print "> "
-
-      # player_cruiser = gets.chomp.to_s
-      # if input chars validate?
-        # if @board.cells.keys.include?(player_cruiser)
-          # @board.place(cruiser, player_cruiser)
-        # else
-      # else puts "Please input valid spaces like the example..."
 
     end
   end
