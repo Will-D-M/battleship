@@ -29,11 +29,12 @@ class Cell
   end
 
   def render(show_ship = false)
-    return "." if @fired_upon == false && empty?
-    return "M" if @fired_upon == true && empty?
-    return "S" if show_ship == true && !empty?
-    return "X" if @ship.sunk? == true
-    return "H" if !empty? && @fired_upon == true
+    return "M" if empty? && fired_upon?
+    return "." if empty?
+    return "S" if !empty? && !fired_upon? && show_ship == true
+    return "." if !empty? && !fired_upon?
+    return "X" if !empty? && fired_upon? && @ship.sunk?
+    return "H" if !empty? && fired_upon?
   end
 
 end
