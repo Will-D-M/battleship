@@ -1,11 +1,12 @@
-# game runner file
+require_relative 'ship'
 require_relative 'board'
 # require_relative 'user'
 
-class Game
-  attr_accessor :player
 
-  def intialize(player)
+class Game
+  attr_reader :player
+
+  def intialize
     @player = player
   end
 
@@ -42,31 +43,31 @@ class Game
     end
   end
 
-  def player_instructions
-      puts "Your Cruiser is three units long.\n"
-      puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
-      puts "Press Enter/Return To Continue"
-      continue = gets
-      print "> "
-
-        if continue == "\n"
-          puts "\n\nGreat!\n\n"
-        end
-
-      puts "Your Submarine is two units long.\n\n"
-      sleep(2)
-      puts "For example:\n\nA2 A3\nor\nB1 C1\n\n\n"
-      puts "Ready?\n\n"
-      puts "Press Enter/Return To Continue"
-      continue = gets
-      print "> "
-
-      if continue == "\n"
-        puts "\n\nGreat!\n\n"
-      end
-  end
-
-  def battleship_simulator
-
-  end
+  # def player_instructions
+  #     puts "Your Cruiser is three units long.\n"
+  #     puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
+  #     puts "Press Enter/Return To Continue"
+  #     continue = gets
+  #     print "> "
+  #
+  #       if continue == "\n"
+  #         puts "\n\nGreat!\n\n"
+  #       end
+  #
+  #     puts "Your Submarine is two units long.\n\n"
+  #     sleep(2)
+  #     puts "For example:\n\nA2 A3\nor\nB1 C1\n\n\n"
+  #     puts "Ready?\n\n"
+  #     puts "Press Enter/Return To Continue"
+  #     continue = gets
+  #     print "> "
+  #
+  #     if continue == "\n"
+  #       puts "\n\nGreat!\n\n"
+  #     end
+  # end
+  #
+  # def battleship_simulator
+      # This is where the game play lives
+  # end
 end
