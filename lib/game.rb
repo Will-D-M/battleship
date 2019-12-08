@@ -2,10 +2,16 @@
 require_relative 'board'
 # require_relative 'user'
 
+class Game
+  attr_accessor :player
+
+  def intialize(player)
+    @player = player
+  end
 
   def main_menu
     3.times{puts "\n"}
-    puts "Welcome to BATTLESHIP \n"
+    puts "### Welcome to BATTLESHIP ###\n"
     puts "Enter p to play. Enter q to quit. \n\n"
     print "> "
     menu_selection = gets.chomp.to_s.downcase
@@ -22,6 +28,7 @@ require_relative 'board'
     elsif menu_selection == "p"
       puts "\n\n...game loading...\n\n\n"
       sleep(3)
+      require 'pry'; binding.pry
       # @board.render
       # computer = User.new("Computer")
       # player = User.new("Player")
@@ -32,6 +39,10 @@ require_relative 'board'
       sleep(2)
       puts "Now it's your turn. You have two ships.\n\n\n"
       sleep(3)
+    end
+  end
+
+  def player_instructions
       puts "Your Cruiser is three units long.\n"
       puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
       puts "Press Enter/Return To Continue"
@@ -53,11 +64,9 @@ require_relative 'board'
       if continue == "\n"
         puts "\n\nGreat!\n\n"
       end
-
-      puts "Enter the squares for the Cruiser (3 spaces):"
-      print "> "
-
-    end
   end
 
-main_menu
+  def battleship_simulator
+
+  end
+end

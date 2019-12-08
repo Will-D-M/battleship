@@ -5,8 +5,12 @@ require_relative '../lib/game'
 
 class GameTest < MiniTest::Test
 
-    def test_user_shown_main_menu
+    def setup
+      game = Game.new(player)
+    end
 
+    def test_user_shown_main_menu
+      assert_instance_of Game, game
     end
 
     def test_computer_can_place_ships_in_random_valid_locations
