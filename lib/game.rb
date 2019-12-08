@@ -1,13 +1,14 @@
 require_relative 'ship'
 require_relative 'board'
-# require_relative 'user'
+require_relative 'user'
 
 
 class Game
-  attr_reader :player
+  attr_reader :player, :player_move
 
   def intialize
     @player = player
+    @player_move = player_move
   end
 
   def main_menu
@@ -31,42 +32,40 @@ class Game
       sleep(3)
       require 'pry'; binding.pry
       # @board.render
-      # computer = User.new("Computer")
-      # player = User.new("Player")
-      # computer.board.place
-      puts "Computer is placing ships on their grid...\n"
+      # computer = User.new(false)
+      # computer.user.computer_player_start
+      # player = User.new
+      puts "Computer is placing ships on their grid...\n\n\n"
       sleep(3)
       puts "The computer's ships are on the grid.\n\n\n"
       sleep(2)
-      puts "Now it's your turn. You have two ships.\n\n\n"
-      sleep(3)
     end
   end
 
-  # def player_instructions
-  #     puts "Your Cruiser is three units long.\n"
-  #     puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
-  #     puts "Press Enter/Return To Continue"
-  #     continue = gets
-  #     print "> "
-  #
-  #       if continue == "\n"
-  #         puts "\n\nGreat!\n\n"
-  #       end
-  #
-  #     puts "Your Submarine is two units long.\n\n"
-  #     sleep(2)
-  #     puts "For example:\n\nA2 A3\nor\nB1 C1\n\n\n"
-  #     puts "Ready?\n\n"
-  #     puts "Press Enter/Return To Continue"
-  #     continue = gets
-  #     print "> "
-  #
-  #     if continue == "\n"
-  #       puts "\n\nGreat!\n\n"
-  #     end
-  # end
-  #
+  def player_instructions
+    puts "Now it's your turn. You have two ships.\n\n\n"
+    sleep(3)
+    puts "Your Cruiser is three units long.\n"
+    puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
+    puts "Press Enter/Return To Continue"
+    continue = gets
+
+      if continue == "\n"
+        puts "\n\nGreat!\n\n"
+      end
+
+    puts "Your Submarine is two units long.\n\n"
+    sleep(2)
+    puts "For example:\n\nA2 A3\nor\nB1 C1\n\n\n"
+    puts "Ready?\n\n"
+    puts "Press Enter/Return To Continue"
+    continue = gets
+
+      if continue == "\n"
+        puts "\n\nGreat!\n\n"
+      end
+  end
+
   # def battleship_simulator
       # This is where the game play lives
   # end
