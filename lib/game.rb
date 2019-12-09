@@ -37,39 +37,39 @@ class Game
     # sleep(3)
     puts "Computer is placing ships on their grid...\n\n"
 
-    @computer_cruiser = Ship.new("Cruiser", 3)
-    @computer_submarine = Ship.new("Submarine", 2)
-
-    @computer_board = Board.new
-    @computer_board.add_cells
-
-    @computer_player = Player.new
-
-    @computer_player.add_ships(@computer_cruiser)
-    @computer_player.add_ships(@computer_submarine)
-
-    @computer_player.ships.each do |ship|
-      random_coordinates = @computer_board.cells.keys.sample(ship.length)
-      until @computer_board.valid_placement?(ship, random_coordinates)
-        random_coordinates = @computer_board.cells.keys.sample(ship.length)
-      end
-      @computer_board.place(ship, random_coordinates)
-    end
+          # @computer_cruiser = Ship.new("Cruiser", 3)
+          # @computer_submarine = Ship.new("Submarine", 2)
+          #
+          # @computer_board = Board.new
+          # @computer_board.add_cells
+          #
+          # @computer_player = Player.new
+          #
+          # @computer_player.add_ships(@computer_cruiser)
+          # @computer_player.add_ships(@computer_submarine)
+          #
+          # @computer_player.ships.each do |ship|
+          #   random_coordinates = @computer_board.cells.keys.sample(ship.length)
+          #   until @computer_board.valid_placement?(ship, random_coordinates)
+          #     random_coordinates = @computer_board.cells.keys.sample(ship.length)
+          #   end
+          #   @computer_board.place(ship, random_coordinates)
+          # end
     # sleep(3)
     puts "The computer's ships are on the grid.\n\n"
     # sleep(2)
     puts "Now it's your turn.\n\n"
 
-    @user_board = Board.new
-    @user_board.add_cells
-
-    @user_cruiser = Ship.new("Cruiser", 3)
-    @user_submarine = Ship.new("Submarine", 2)
-
-    @user_player = Player.new
-
-    @user_player.add_ships(@user_cruiser)
-    @user_player.add_ships(@user_submarine)
+        # @user_board = Board.new
+        # @user_board.add_cells
+        #
+        # @user_cruiser = Ship.new("Cruiser", 3)
+        # @user_submarine = Ship.new("Submarine", 2)
+        #
+        # @user_player = Player.new
+        #
+        # @user_player.add_ships(@user_cruiser)
+        # @user_player.add_ships(@user_submarine)
     #render
     # sleep(3)
     puts "Your Cruiser is three units long.\n"
@@ -103,17 +103,17 @@ class Game
 
     coordinate = gets.chomp.upcase
 
-    if @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
-      coordinate
-
-    elsif !@computer_board.valid_coordinate?(coordinate)
-      until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
-        puts "\nPlease enter a valid coordinate:"
-        print "> "
-        coordinate = gets.chomp.upcase
-      end
-      coordinate
-
+          # if @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
+          #   coordinate
+          #
+          # elsif !@computer_board.valid_coordinate?(coordinate)
+          #   until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
+          #     puts "\nPlease enter a valid coordinate:"
+          #     print "> "
+          #     coordinate = gets.chomp.upcase
+          #   end
+          #   coordinate
+          #
     elsif @computer_board.valid_coordinate?(coordinate) && @computer_board.cells[coordinate].fired_upon?
       puts "\nYou have already fired upon this cell."
       until @computer_board.valid_coordinate?(coordinate) && !@computer_board.cells[coordinate].fired_upon?
@@ -148,34 +148,34 @@ class Game
 
 
 
-  def computer_turn
-    puts "Firing my missile..."
-    # sleep(1.5)
-    comp_coordinate = @user_board.cells.keys.sample(1).join
-      until @user_board.valid_coordinate?(comp_coordinate) && !@user_board.cells[comp_coordinate].fired_upon?
-        comp_coordinate = @user_board.cells.keys.sample(1).join
-      end
-    comp_coordinate
-
-    @user_board.cells[comp_coordinate].fire_upon
-    if @user_board.cells[comp_coordinate].render == "M"
-      result = "miss."
-    elsif @user_board.cells[comp_coordinate].render == "H"
-      result = "hit!"
-    elsif @user_board.cells[comp_coordinate].render == "X"
-      result = "hit and sunk your #{@user_board.cells[comp_coordinate].ship.name}!"
-    end
-
-    puts "\nMy shot on #{comp_coordinate} was a #{result}\n\n"
-
-    if @user_player.ships.all? { |ship| ship.sunk? }
-      puts "I win!\n\n"
-      puts "Would you like to play again?\n\n"
-      main_menu
-    else
-      user_turn
-    end
-  end
+        # def computer_turn
+        #   puts "Firing my missile..."
+        #   # sleep(1.5)
+        #   comp_coordinate = @user_board.cells.keys.sample(1).join
+        #     until @user_board.valid_coordinate?(comp_coordinate) && !@user_board.cells[comp_coordinate].fired_upon?
+        #       comp_coordinate = @user_board.cells.keys.sample(1).join
+        #     end
+        #   comp_coordinate
+        #
+        #   @user_board.cells[comp_coordinate].fire_upon
+        #   if @user_board.cells[comp_coordinate].render == "M"
+        #     result = "miss."
+        #   elsif @user_board.cells[comp_coordinate].render == "H"
+        #     result = "hit!"
+        #   elsif @user_board.cells[comp_coordinate].render == "X"
+        #     result = "hit and sunk your #{@user_board.cells[comp_coordinate].ship.name}!"
+        #   end
+        #
+        #   puts "\nMy shot on #{comp_coordinate} was a #{result}\n\n"
+        #
+        #   if @user_player.ships.all? { |ship| ship.sunk? }
+        #     puts "I win!\n\n"
+        #     puts "Would you like to play again?\n\n"
+        #     main_menu
+        #   else
+        #     user_turn
+        #   end
+        # end
 
 
 
