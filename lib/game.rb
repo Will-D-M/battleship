@@ -47,7 +47,7 @@ class Game
     puts "Your Cruiser is three units long.\n"
     puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
 
-    puts @user_board.render
+    # puts @user_board.render
 
     @user_player.ships.each do |ship|
       puts "\nEnter the coordinates for the #{ship.name} (#{ship.length} spaces):"

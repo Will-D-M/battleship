@@ -2,10 +2,10 @@ class Player
   attr_reader :computer_player, :computer_board, :user_player, :user_board, :ships
 
   def initialize # Not sure these should be nil values... they should just equal each other.
-    @computer_player = computer_player
-    @computer_board = computer_board
-    @user_player = user_player
-    @user_board = user_board
+    @computer_player = nil
+    @computer_board = nil
+    @user_player = nil
+    @user_board = nil
     @ships = []
   end
 
@@ -21,16 +21,19 @@ class Player
   end
 
   def create_computer_player
+    @comp_ships = []
     @computer_board = Board.new
     @computer_board.add_cells
 
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
 
-    @ships << @computer_cruiser
-    @ships << @computer_submarine
+    @comp_ships << @computer_cruiser
+      @ships << @computer_cruiser
+    @comp_ships << @computer_submarine
+      @ships << @computer_submarine
 
-    @computer_player.ships.each do |ship| # ships method lives in game file now
+    @comp_ships.each do |ship| # ships method lives in game file now
       random_coordinates = @computer_board.cells.keys.sample(ship.length)
 
       until @computer_board.valid_placement?(ship, random_coordinates)
