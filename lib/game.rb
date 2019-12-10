@@ -1,129 +1,143 @@
-require_relative 'board'
-require_relative 'ship'
 require_relative 'player'
 
 class Game
 
-  attr_accessor :computer_player, :user_player
+  attr_accessor :computer, :user
 
   def initialize
-    @computer_player = nil
-    @user_player = nil
+    @computer = nil
+    @user = nil
   end
 
   def welcome
     puts "Welcome to BATTLESHIP \n\n"
   end
 
-  def main_menu
+  def start_game
     puts "Enter p to play. Enter q to quit. \n\n"
     print "> "
-    menu_selection = gets.chomp.to_s.downcase
+    menu_selection = gets.chomp.downcase
 
     until menu_selection == "p" || menu_selection == "q"
       puts "\nPlease enter a valid selection"
       print "> "
-      menu_selection = gets.chomp.to_s.downcase
+      menu_selection = gets.chomp.downcase
     end
 
-    if menu_selection == "q"
-      puts "\nGoodbye.\n\n\n"
-      return
+    if menu_selection == "p"
+      computer_setup
     else
-      setup
+      return
     end
   end
 
-  def setup
+  def computer_setup
     puts "\n\n...game loading...\n\n"
-
     puts "Computer is placing ships on their grid...\n\n"
 
-    @computer_player = Player.new
-    @computer_player.create_computer_player
+    @computer = Player.new
+    @computer.create_computer_board
+    @computer.create_computer_ships
+    @computer.place_computer_ships
 
+    user_setup
+  end
+
+  def user_setup
     puts "The computer's ships are on the grid.\n\n"
     puts "Now it's your turn.\n\n"
 
-    @user_player = Player.new
-    @user_player.create_user_player
+    @user = Player.new
+    @user.create_user_board
+    @user.create_user_ships
 
+    puts "Your Cruiser is three units long.\n"
+    puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
 
-    @user_player.user_ships.each do |ship|
-    puts "\nEnter the coordinates for the #{ship.name} (#{ship.length} spaces):"
-    print "> "
-    user_coordinates = gets.chomp.upcase.split
-      until @user_player.user_board.valid_placement?(ship, user_coordinates)
-        puts "\nThose are invalid coordinates. Please try again:"
-        print "> "
-        user_coordinates = gets.chomp.upcase.split
-      end
-      @user_player.user_board.place(ship, user_coordinates)
-    end
-    user_turn
+    puts @user.user_board.render
+
+    @user.place_user_ships
+
+    user_shot_input
   end
 
-  def user_turn
+  def render_boards
     puts "\n==========CURRENT COMPUTER BOARD=========="
-    puts @computer_player.computer_board.render
+    puts @computer.computer_board.render
     puts "\n===========CURRENT USER BOARD==========="
-    puts @user_player.user_board.render(true)
+    puts @user.user_board.render(true)
+  end
+
+  def user_shot_input
+    render_boards
+
     puts "\nEnter the coordinate for your shot:"
     print "> "
 
-    coordinate = gets.chomp.upcase
+    user_shot_coordinate = gets.chomp.upcase
+    user_shot_validation(user_shot_coordinate)
+  end
 
-    if @computer_player.computer_board.valid_coordinate?(coordinate) && !@computer_player.computer_board.cells[coordinate].fired_upon?
-      coordinate
+  def user_shot_validation(user_shot_coordinate)
+    until @computer.computer_board.valid_coordinate?(user_shot_coordinate) && !@computer.computer_board.cells[user_shot_coordinate].fired_upon?
 
-    elsif !@computer_player.computer_board.valid_coordinate?(coordinate)
-      until @computer_player.computer_board.valid_coordinate?(coordinate) && !@computer_player.computer_board.cells[coordinate].fired_upon?
-        puts "\nPlease enter a valid coordinate:"
+      if !@computer.computer_board.valid_coordinate?(user_shot_coordinate)
+        puts "\nYou entered an invalid coordinate."
+        user_shot_input
+      else @computer.computer_board.cells[user_shot_coordinate].fired_upon?
+        puts "\nYou have already fired upon this cell. Please enter a new coordinate:"
         print "> "
-        coordinate = gets.chomp.upcase
+        user_shot_input
       end
-      coordinate
 
-    elsif @computer_player.computer_board.valid_coordinate?(coordinate) && @computer_player.computer_board.cells[coordinate].fired_upon?
-      puts "\nYou have already fired upon this cell."
-      until @computer_player.computer_board.valid_coordinate?(coordinate) && !@computer_player.computer_board.cells[coordinate].fired_upon?
-        puts "\nPlease enter a valid coordinate:"
-        print "> "
-        coordinate = gets.chomp.upcase
-      end
-      coordinate
     end
-
     puts "\nFiring your missile..."
-    # sleep(1.5)
-    @computer_player.computer_board.cells[coordinate].fire_upon
-    if @computer_player.computer_board.cells[coordinate].render == "M"
+    user_shot_feedback(user_shot_coordinate)
+  end
+
+  def user_shot_feedback(user_shot_coordinate)
+    @computer.computer_board.cells[user_shot_coordinate].fire_upon
+    if @computer.computer_board.cells[user_shot_coordinate].render == "M"
       result = "miss."
-    elsif @computer_player.computer_board.cells[coordinate].render == "H"
+    elsif @computer.computer_board.cells[user_shot_coordinate].render == "H"
       result = "hit!"
-    elsif @computer_player.computer_board.cells[coordinate].render == "X"
-      result = "hit and sunk my #{@computer_player.computer_board.cells[coordinate].ship.name}!"
+    elsif @computer.computer_board.cells[user_shot_coordinate].render == "X"
+      result = "hit and sunk my #{@computer.computer_board.cells[user_shot_coordinate].ship.name}!"
     end
 
-    puts "\nYour shot on #{coordinate} was a #{result}\n\n"
-    if @computer_player.computer_ships.all? { |ship| ship.sunk? }
+    puts "\nYour shot on #{user_shot_coordinate} was a #{result}\n\n"
+
+    all_computer_ships_sunk
+  end
+
+  def all_computer_ships_sunk
+    if @computer.computer_ships.all? { |ship| ship.sunk? }
       puts "You win!\n\n"
       puts "Would you like to play again?\n\n"
       main_menu
     else
-      computer_turn
+      create_computer_turn
     end
   end
 
-  def computer_turn
-    @user_player.computer_turn
-    if @user_player.user_ships.all? { |ship| ship.sunk? }
-      puts "I win!\n\n"
+  def create_computer_turn
+    puts "Firing my missile..."
+    @user.computer_takes_shot
+    all_user_ships_sunk
+  end
+
+  def all_user_ships_sunk
+    if @user.user_ships.all? { |ship| ship.sunk? }
+      puts "You lose!\n\n"
       puts "Would you like to play again?\n\n"
-      main_menu
+      start_game
     else
-      user_turn
+      user_shot_input
     end
+  end
+
+  def end_game
+    puts "\nGoodbye.\n\n"
   end
 
 end

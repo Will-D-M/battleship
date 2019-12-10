@@ -9,18 +9,17 @@ class Board
   end
 
   def add_cells
-    board_coords = []
-
+    board_coordinates = []
     ycoords = ("A".."D").to_a
     xcoords = ("1".."4").to_a
 
     ycoords.each do |y|
       xcoords.each do |x|
-        board_coords << y + x
+        board_coordinates << y + x
       end
     end
 
-    board_coords.each do |c|
+    board_coordinates.each do |c|
       @cells[c] = Cell.new(c)
     end
   end
@@ -34,29 +33,21 @@ class Board
   end
 
   def letters_same?(ship, coordinates)
-    coordinates.all? do |c|
-      c[0] == coordinates[0][0]
-    end
+    coordinates.all? { |c| c[0] == coordinates[0][0] }
   end
 
   def numbers_same?(ship, coordinates)
-    coordinates.all? do |c|
-      c[1] == coordinates[1][1]
-    end
+    coordinates.all? { |c| c[1] == coordinates[1][1] }
   end
 
   def letters_consecutive?(ship, coordinates)
-    coord_letter_array = coordinates.map do |c|
-      c[0]
-    end
+    coord_letter_array = coordinates.map { |c| c[0] }
     letter_range = coord_letter_array[0]..coord_letter_array[-1]
     coord_letter_array == letter_range.to_a
   end
 
   def numbers_consecutive?(ship, coordinates)
-    coord_nums_array = coordinates.map do |c|
-      c[1]
-    end
+    coord_nums_array = coordinates.map { |c| c[1] }
     numbers_range = coord_nums_array[0]..coord_nums_array[-1]
     coord_nums_array == numbers_range.to_a
   end
@@ -65,10 +56,7 @@ class Board
     if coordinates.all? { |c| valid_coordinate?(c) } == false
       return false
     end
-
-    coordinates.all? do |c|
-      @cells[c].ship == nil
-    end
+    coordinates.all? { |c| @cells[c].ship == nil }
   end
 
   def valid_placement?(ship, coordinates)
@@ -88,9 +76,7 @@ class Board
 
   def place(ship, coordinates)
     if valid_placement?(ship, coordinates)
-      coordinates.each do |c|
-        @cells[c].ship = ship
-      end
+      coordinates.each { |c| @cells[c].ship = ship }
       @cells
     end
   end

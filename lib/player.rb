@@ -11,17 +11,20 @@ class Player
     @user_ships = []
   end
 
-  def create_computer_player
+  def create_computer_board
     @computer_board = Board.new
     @computer_board.add_cells
+  end
 
+  def create_computer_ships
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
-
     @computer_ships << @computer_cruiser
     @computer_ships << @computer_submarine
+  end
 
-    @computer_ships.each do |ship| # ships method lives in game file now
+  def place_computer_ships
+    @computer_ships.each do |ship|
       random_coordinates = @computer_board.cells.keys.sample(ship.length)
 
       until @computer_board.valid_placement?(ship, random_coordinates)
@@ -32,44 +35,54 @@ class Player
     end
   end
 
-  def create_user_player
+  def create_user_board
     @user_board = Board.new
     @user_board.add_cells
+  end
 
+  def create_user_ships
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_submarine = Ship.new("Submarine", 2)
-
     @user_ships << @user_cruiser
     @user_ships << @user_submarine
-
-    puts "Your Cruiser is three units long.\n"
-    puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
-
-    puts @user_board.render
   end
 
-  def computer_turn
-    puts "Firing my missile..."
-    comp_coordinate = @user_board.cells.keys.sample(1).join
-
-    until @user_board.valid_coordinate?(comp_coordinate) && !@user_board.cells[comp_coordinate].fired_upon?
-      comp_coordinate = @user_board.cells.keys.sample(1).join
+  def place_user_ships
+    @user_ships.each do |ship|
+    puts "\nEnter the coordinates for the #{ship.name} (#{ship.length} spaces):"
+    print "> "
+    user_coordinates = gets.chomp.upcase.split
+      until @user_board.valid_placement?(ship, user_coordinates)
+        puts "\nThose are invalid coordinates. Please try again:"
+        print "> "
+        user_coordinates = gets.chomp.upcase.split
+      end
+      @user_board.place(ship, user_coordinates)
     end
+  end
 
-    # comp_coordinate
+  def computer_takes_shot
+    computer_shot_coordinate = @user_board.cells.keys.sample
 
-    @user_board.cells[comp_coordinate].fire_upon
+    until @user_board.valid_coordinate?(computer_shot_coordinate) && !@user_board.cells[computer_shot_coordinate].fired_upon?
+      computer_shot_coordinate = @user_board.cells.keys.sample
+    end
+    
+    computer_shot_feedback(computer_shot_coordinate)
+  end
 
-    if @user_board.cells[comp_coordinate].render == "M"
+  def computer_shot_feedback(computer_shot_coordinate)
+    @user_board.cells[computer_shot_coordinate].fire_upon
+
+    if @user_board.cells[computer_shot_coordinate].render == "M"
       result = "miss."
-    elsif @user_board.cells[comp_coordinate].render == "H"
+    elsif @user_board.cells[computer_shot_coordinate].render == "H"
       result = "hit!"
-    elsif @user_board.cells[comp_coordinate].render == "X"
-      result = "hit and sunk your #{@user_board.cells[comp_coordinate].ship.name}!"
+    elsif @user_board.cells[computer_shot_coordinate].render == "X"
+      result = "hit and sunk your #{@user_board.cells[computer_shot_coordinate].ship.name}!"
     end
 
-    puts "\nMy shot on #{comp_coordinate} was a #{result}\n\n"
-
-
+    puts "\nMy shot on #{computer_shot_coordinate} was a #{result}\n\n"
   end
+
 end
