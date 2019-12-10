@@ -18,9 +18,7 @@ class Ship
   end
 
   def hit
-    if @health > 0 && @health <= 3
       @health -= 1
-    end
   end
 
 end
