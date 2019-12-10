@@ -11,20 +11,19 @@ class Player
     @user_ships = []
   end
 
-  def create_computer_player_board
+  def create_computer_board
     @computer_board = Board.new
     @computer_board.add_cells
   end
 
-  def create_computer_player_ships
+  def create_computer_ships
     @computer_cruiser = Ship.new("Cruiser", 3)
     @computer_submarine = Ship.new("Submarine", 2)
-
     @computer_ships << @computer_cruiser
     @computer_ships << @computer_submarine
   end
 
-  def place_computer_player_ships
+  def place_computer_ships
     @computer_ships.each do |ship|
       random_coordinates = @computer_board.cells.keys.sample(ship.length)
 
@@ -36,20 +35,19 @@ class Player
     end
   end
 
-  def create_user_player_board
+  def create_user_board
     @user_board = Board.new
     @user_board.add_cells
   end
 
-  def create_user_player_ships
+  def create_user_ships
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_submarine = Ship.new("Submarine", 2)
-
     @user_ships << @user_cruiser
     @user_ships << @user_submarine
   end
 
-  def place_user_player_ships
+  def place_user_ships
     @user_ships.each do |ship|
     puts "\nEnter the coordinates for the #{ship.name} (#{ship.length} spaces):"
     print "> "
@@ -64,23 +62,27 @@ class Player
   end
 
   def computer_takes_shot
-    computer_coordinate = @user_board.cells.keys.sample
+    computer_shot_coordinate = @user_board.cells.keys.sample
 
-    until @user_board.valid_coordinate?(computer_coordinate) && !@user_board.cells[computer_coordinate].fired_upon?
-      computer_coordinate = @user_board.cells.keys.sample(1).join
+    until @user_board.valid_coordinate?(computer_shot_coordinate) && !@user_board.cells[computer_shot_coordinate].fired_upon?
+      computer_shot_coordinate = @user_board.cells.keys.sample
     end
+    
+    computer_shot_feedback(computer_shot_coordinate)
+  end
 
-    @user_board.cells[computer_coordinate].fire_upon
+  def computer_shot_feedback(computer_shot_coordinate)
+    @user_board.cells[computer_shot_coordinate].fire_upon
 
-    if @user_board.cells[computer_coordinate].render == "M"
+    if @user_board.cells[computer_shot_coordinate].render == "M"
       result = "miss."
-    elsif @user_board.cells[computer_coordinate].render == "H"
+    elsif @user_board.cells[computer_shot_coordinate].render == "H"
       result = "hit!"
-    elsif @user_board.cells[computer_coordinate].render == "X"
-      result = "hit and sunk your #{@user_board.cells[computer_coordinate].ship.name}!"
+    elsif @user_board.cells[computer_shot_coordinate].render == "X"
+      result = "hit and sunk your #{@user_board.cells[computer_shot_coordinate].ship.name}!"
     end
 
-    puts "\nMy shot on #{computer_coordinate} was a #{result}\n\n"
+    puts "\nMy shot on #{computer_shot_coordinate} was a #{result}\n\n"
   end
 
 end

@@ -71,7 +71,6 @@ class CellTest < Minitest::Test
   end
 
   def test_it_renders_properly_when_ship_is_sunk
-    # require 'pry'; binding.pry
     @cell.place_ship(@cruiser)
     @cell.fire_upon
 

@@ -1,4 +1,5 @@
 class Cell
+
   attr_reader :coordinate
   attr_accessor :ship, :fired_upon
 
@@ -22,7 +23,6 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-
     if !empty?
       @ship.health -= 1
     end
@@ -30,9 +30,8 @@ class Cell
 
   def render(show_ship = false)
     return "M" if empty? && fired_upon?
-    return "." if empty?
     return "S" if !empty? && !fired_upon? && show_ship == true
-    return "." if !empty? && !fired_upon?
+    return "." if empty? || (!empty? && !fired_upon?)
     return "X" if !empty? && fired_upon? && @ship.sunk?
     return "H" if !empty? && fired_upon?
   end

@@ -10,7 +10,6 @@ class Board
 
   def add_cells
     board_coordinates = []
-
     ycoords = ("A".."D").to_a
     xcoords = ("1".."4").to_a
 
@@ -57,7 +56,6 @@ class Board
     if coordinates.all? { |c| valid_coordinate?(c) } == false
       return false
     end
-
     coordinates.all? { |c| @cells[c].ship == nil }
   end
 
