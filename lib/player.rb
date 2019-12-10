@@ -1,9 +1,8 @@
 require_relative 'board'
-require_relative 'cell'
 require_relative 'ship'
 
 class Player
-  attr_accessor :computer_player, :computer_board, :user_player, :user_board, :computer_ships, :user_ships
+  attr_accessor :computer_board, :user_board, :computer_ships, :user_ships
 
   def initialize
     @computer_board = nil
