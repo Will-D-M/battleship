@@ -5,16 +5,14 @@ require_relative '../lib/game'
 
 class GameTest < MiniTest::Test
 
-    def test_user_shown_main_menu
-
-    end
-
-    def test_computer_can_place_ships_in_random_valid_locations
-      # computer play methods should live in User class
+    def test_user_shown_welcome_and_main_menu
+      assert_equal true, game.welcome
+      assert_equal true, game.main_menu
     end
 
     def test_user_can_enter_valid_sequences_to_place_both_ships
-
+      assert_equal "PLACE_METHOD_RETURN_VALUE", @user_board.place(@cruiser, user_coordinates).call
+      assert_equal "PLACE_METHOD_RETURN_VALUE", @user_board.place(@submarine, user_coordinates).call
     end
 
     def test_user_cannot_enter_invalid_coordinates
@@ -26,14 +24,6 @@ class GameTest < MiniTest::Test
     end
 
     def test_computer_board_displays_accurate_data
-
-    end
-
-    def test_computer_chooses_a_random_shot
-
-    end
-
-    def test_computer_does_not_fire_on_same_coordinate_twice
 
     end
 

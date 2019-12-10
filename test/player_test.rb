@@ -26,4 +26,15 @@ class PlayerTest < Minitest::Test
     assert_equal [@cruiser, @submarine], @player.ships
   end
 
+  def test_computer_can_place_ships_in_random_valid_locations
+    
+  end
+
+  def test_computer_chooses_a_random_shot
+
+  end
+
+  def test_computer_does_not_fire_on_same_coordinate_twice
+
+  end
 end
