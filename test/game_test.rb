@@ -11,8 +11,8 @@ class GameTest < MiniTest::Test
     end
 
     def test_user_can_enter_valid_sequences_to_place_both_ships
-      assert_equal "PLACE_METHOD_RETURN_VALUE", @user_board.place(@cruiser, user_coordinates).call
-      assert_equal "PLACE_METHOD_RETURN_VALUE", @user_board.place(@submarine, user_coordinates).call
+      assert_equal @cells, @user_board.place(@user_cruiser, user_coordinates).call
+      assert_equal @cells, @user_board.place(@user_submarine, user_coordinates).call
     end
 
     def test_user_cannot_enter_invalid_coordinates
