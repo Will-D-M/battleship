@@ -11,6 +11,7 @@ class Game
 
   def welcome
     puts "Welcome to BATTLESHIP \n\n"
+    sleep(2)
   end
 
   def start_game
@@ -32,8 +33,11 @@ class Game
   end
 
   def computer_setup
+    sleep(0.5)
     puts "\n\n...game loading...\n\n"
+    sleep(2)
     puts "Computer is placing ships on their grid...\n\n"
+    sleep(2)
 
     @computer = PlayerSetup.new
     @computer.create_computer_board
@@ -45,7 +49,9 @@ class Game
 
   def user_setup
     puts "The computer's ships are on the grid.\n\n"
+    sleep(2)
     puts "Now it's your turn.\n\n"
+    sleep(2)
 
     @user = PlayerSetup.new
     @user.create_user_board
@@ -53,6 +59,7 @@ class Game
 
     puts "Your Cruiser is three units long.\n"
     puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
+    sleep(2)
 
     puts @user.user_board.render
     get_user_ship_coordinates
@@ -74,6 +81,7 @@ class Game
   end
 
   def render_boards
+    sleep(1.5)
     puts "\n==========CURRENT COMPUTER BOARD=========="
     puts @computer.computer_board.render
     puts "\n===========CURRENT USER BOARD==========="
@@ -82,7 +90,7 @@ class Game
 
   def user_shot_input
     render_boards
-
+    sleep(1)
     puts "\nEnter the coordinate for your shot:"
     print "> "
 
@@ -102,7 +110,9 @@ class Game
       end
 
     end
+    sleep(1)
     puts "\nFiring your missile..."
+    sleep(2)
     user_shot_feedback(user_shot_coordinate)
   end
 
@@ -123,6 +133,7 @@ class Game
 
   def all_computer_ships_sunk
     if @computer.computer_ships.all? { |ship| ship.sunk? }
+      sleep(2)
       puts "You win!\n\n"
       puts "Would you like to play again?\n\n"
       start_game
@@ -132,7 +143,9 @@ class Game
   end
 
   def create_computer_turn
+    sleep(1)
     puts "Firing my missile..."
+    sleep(2)
     computer_takes_shot
   end
 
@@ -164,6 +177,7 @@ class Game
 
   def all_user_ships_sunk
     if @user.user_ships.all? { |ship| ship.sunk? }
+      sleep(1)
       puts "You lose!\n\n"
       puts "Would you like to play again?\n\n"
       start_game
