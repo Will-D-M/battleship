@@ -1,4 +1,4 @@
-require_relative 'player'
+require_relative 'player_setup'
 
 class Game
 
@@ -35,7 +35,7 @@ class Game
     puts "\n\n...game loading...\n\n"
     puts "Computer is placing ships on their grid...\n\n"
 
-    @computer = Player.new
+    @computer = PlayerSetup.new
     @computer.create_computer_board
     @computer.create_computer_ships
     @computer.place_computer_ships
@@ -47,7 +47,7 @@ class Game
     puts "The computer's ships are on the grid.\n\n"
     puts "Now it's your turn.\n\n"
 
-    @user = Player.new
+    @user = PlayerSetup.new
     @user.create_user_board
     @user.create_user_ships
 
@@ -55,9 +55,21 @@ class Game
     puts "For example:\n\nA1 A2 A3\nor\nA1 B1 C1\n\n"
 
     puts @user.user_board.render
+    get_user_ship_coordinates
+  end
 
-    @user.place_user_ships
-
+  def get_user_ship_coordinates
+    @user.user_ships.each do |ship|
+      puts "\nEnter the coordinates for the #{ship.name} (#{ship.length} spaces):"
+      print "> "
+      user_coordinates = gets.chomp.upcase.split
+        until @user.user_board.valid_placement?(ship, user_coordinates)
+          puts "\nThose are invalid coordinates. Please try again:"
+          print "> "
+          user_coordinates = gets.chomp.upcase.split
+        end
+        @user.place_user_ships(ship, user_coordinates)
+    end
     user_shot_input
   end
 
@@ -85,8 +97,7 @@ class Game
         puts "\nYou entered an invalid coordinate."
         user_shot_input
       else @computer.computer_board.cells[user_shot_coordinate].fired_upon?
-        puts "\nYou have already fired upon this cell. Please enter a new coordinate:"
-        print "> "
+        puts "\nYou have already fired upon this cell."
         user_shot_input
       end
 
@@ -114,7 +125,7 @@ class Game
     if @computer.computer_ships.all? { |ship| ship.sunk? }
       puts "You win!\n\n"
       puts "Would you like to play again?\n\n"
-      main_menu
+      start_game
     else
       create_computer_turn
     end
@@ -122,7 +133,32 @@ class Game
 
   def create_computer_turn
     puts "Firing my missile..."
-    @user.computer_takes_shot
+    computer_takes_shot
+  end
+
+  def computer_takes_shot
+    computer_shot_coordinate = @user.user_board.cells.keys.sample
+
+    until @user.user_board.valid_coordinate?(computer_shot_coordinate) && !@user.user_board.cells[computer_shot_coordinate].fired_upon?
+      computer_shot_coordinate = @user.user_board.cells.keys.sample
+    end
+    computer_shot_feedback(computer_shot_coordinate)
+
+  end
+
+
+  def computer_shot_feedback(computer_shot_coordinate)
+    @user.user_board.cells[computer_shot_coordinate].fire_upon
+
+    if @user.user_board.cells[computer_shot_coordinate].render == "M"
+      result = "miss."
+    elsif @user.user_board.cells[computer_shot_coordinate].render == "H"
+      result = "hit!"
+    elsif @user.user_board.cells[computer_shot_coordinate].render == "X"
+      result = "hit and sunk your #{@user.user_board.cells[computer_shot_coordinate].ship.name}!"
+    end
+
+    puts "\nMy shot on #{computer_shot_coordinate} was a #{result}\n\n"
     all_user_ships_sunk
   end
 
