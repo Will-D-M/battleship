@@ -114,7 +114,7 @@ class Game
     if @computer.computer_ships.all? { |ship| ship.sunk? }
       puts "You win!\n\n"
       puts "Would you like to play again?\n\n"
-      main_menu
+      start_game
     else
       create_computer_turn
     end
